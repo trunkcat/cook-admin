@@ -15,16 +15,16 @@
 	import { type SuperValidated, type Infer, superForm } from "sveltekit-superforms";
 	import { zodClient } from "sveltekit-superforms/adapters";
 
-	let { data }: { data: { form: SuperValidated<Infer<FormSchema>> } } = $props();
+	let props: { form: SuperValidated<Infer<FormSchema>> } = $props();
 
-	const form = superForm(data.form, {
+	const form = superForm(props.form, {
 		validators: zodClient(formSchema),
 	});
 
 	const { form: formData, enhance } = form;
 </script>
 
-<form use:enhance action="?/login" method="post" autocomplete="off" class="space-y-4 p-8">
+<form use:enhance action="?/login" method="POST" autocomplete="off" class="space-y-4 p-8">
 	<div class="space-y-2">
 		<h1 class="text-2xl font-bold">Login</h1>
 		<p class="text-muted-foreground">Enter your credentials to log in to the dashboard.</p>

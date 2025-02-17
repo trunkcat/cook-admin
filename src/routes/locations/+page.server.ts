@@ -1,7 +1,8 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { superValidate, fail } from "sveltekit-superforms";
-import { formSchema } from "./login-form.svelte";
+import { formSchema } from "./insert-level-form.svelte";
 import { zod } from "sveltekit-superforms/adapters";
+import { api } from "$lib";
 
 export const load: PageServerLoad = async () => {
 	return {
@@ -10,12 +11,12 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions = {
-	login: async (event) => {
+	insert: async (event) => {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
-
+		await api.post("locations", { json: form.data });
 		return { form };
 	},
 } satisfies Actions;

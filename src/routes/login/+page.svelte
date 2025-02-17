@@ -4,4 +4,6 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<LoginForm {data} />
+{#await data.form then form}
+	<LoginForm {form} />
+{/await}
