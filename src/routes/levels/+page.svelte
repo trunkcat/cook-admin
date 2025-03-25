@@ -46,16 +46,16 @@
 	<div class="flex place-items-center justify-between">
 		<diV>
 			<h2 class="mb-2 text-3xl">Levels</h2>
-			<p>Levels can be managed through here.</p>
+			 <p>Levels can be viewed through here.</p> <!-- Change this if you implement insertion of levels -->
 		</diV>
 
 		<div class="gap-2">
 			<Button onclick={fetchLevels} variant="outline">
 				<RefreshCwIcon class={isRefreshing ? "animate-spin" : ""} />
 			</Button>
-			{#await data.form then form}
+			<!-- {#await data.form then form}
 				<InsertLevelForm {form} />
-			{/await}
+			{/await} -->
 		</div>
 	</div>
 
