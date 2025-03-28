@@ -38,7 +38,7 @@
 <div class="space-y-4">
 	<div class="flex place-items-center justify-between">
 		<diV>
-			<h2 class="mb-2 text-3xl">Levels</h2>
+			<h2 class="mb-2 text-3xl">Player Stats</h2>
 			 <p>Player status can be viewed through here.</p> <!-- Change this if you implement insertion of levels -->
 		</diV>
 
@@ -49,6 +49,7 @@
 			<!-- {#await data.form then form}
 				<InsertLevelForm {form} />
 			{/await} -->
+			
 		</div>
 	</div>
 
