@@ -15,16 +15,17 @@
 	import type { Place } from "$lib/schema-types";
 	import { onMount } from "svelte";
 	import SearchBox from "$lib/components/SearchBox.svelte";
+	import { api } from "$lib/api";
 
 	let { data }: { data: PageData } = $props();
 
-	let isRefreshing = $state(false);
+	let isRefreshing = $state(true);
 	let places = $state<Place[]>([]);
 
 	async function fetchPlaces() {
 		isRefreshing = true;
-		const response = await fetch("/api/common/places");
-		places = (await response.json()).data;
+		const response = await api.get("data/places");
+		places = await response.json();
 		isRefreshing = false;
 	}
 

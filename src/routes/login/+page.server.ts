@@ -22,7 +22,6 @@ export const actions = {
 
 		const response = await api.post("manager/login", {
 			body: JSON.stringify(form.data),
-			headers: { Authorization: "Bearer " + event.locals.sessionToken },
 		});
 
 		if (!response.ok) {

@@ -25,7 +25,9 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		const res = await api.post("manager/places", { json: form.data });
+		const res = await api
+			.extend({ fetch: event.fetch })
+			.post("manager/places", { json: form.data });
 		if (res.ok) {
 			return message(form, { message: "Added place successfully" });
 		} else {
