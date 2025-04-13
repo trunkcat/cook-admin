@@ -8,6 +8,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	console.log(event.request.method, route);
 
 	const sessionToken = event.cookies.get(SESSION_COOKIE_NAME);
+
 	if (!sessionToken) {
 		event.locals.session = null;
 		if (route !== routes.login) {
@@ -17,9 +18,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	const response = await api.get("manager/session", {
-		headers: { Authorization: "Bearer " + sessionToken },
-	});
+	const response = await api
+		.extend({ fetch: event.fetch })
+		.get("manager/session", { credentials: "include" });
+
 	if (!response.ok) {
 		deleteSessionTokenCookie(event);
 		return redirect(303, routes.login);

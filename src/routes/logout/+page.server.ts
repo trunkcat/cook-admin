@@ -8,9 +8,7 @@ export const load: PageServerLoad = async (event) => {
 		return redirect(307, routes.login);
 	}
 
-	await api.delete("manager/logout", {
-		headers: { Authorization: "Bearer " + event.locals.sessionToken },
-	});
+	await api.extend({ fetch: event.fetch }).delete("manager/logout");
 	deleteSessionTokenCookie(event);
 
 	event.locals.session = null;

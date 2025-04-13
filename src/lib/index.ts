@@ -6,14 +6,10 @@ export const routes = {
 	login: "/login",
 	logout: "/logout",
 	supermanager: "/places",
-	manager: "/manager",
+	manager: "/manager/",
 };
 
 export const SESSION_COOKIE_NAME = "auth-session";
-
-export function deleteSessionTokenCookie(event: RequestEvent) {
-	event.cookies.delete(SESSION_COOKIE_NAME, { path: "/", secure: import.meta.env.PROD });
-}
 
 export function setSessionTokenCookie(
 	event: RequestEvent,
@@ -24,5 +20,14 @@ export function setSessionTokenCookie(
 		expires: new Date(expiresAt),
 		path: "/",
 		secure: import.meta.env.PROD,
+		sameSite: import.meta.env.PROD ? "none" : "lax",
+	});
+}
+
+export function deleteSessionTokenCookie(event: RequestEvent) {
+	event.cookies.delete(SESSION_COOKIE_NAME, {
+		path: "/",
+		secure: import.meta.env.PROD,
+		sameSite: import.meta.env.PROD ? "none" : "lax",
 	});
 }
