@@ -9,7 +9,7 @@ const unauthorizedHook: AfterResponseHook = async (request, options, response) =
 };
 
 export const api = ky.create({
-	prefixUrl: "http://192.168.29.36:8080/api",
+	prefixUrl: "http://192.168.1.8:8080/api",
 	headers: {
 		Accept: "application/json",
 		"Content-Type": "application/json",

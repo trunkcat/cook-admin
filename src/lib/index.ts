@@ -6,7 +6,7 @@ export const routes = {
 	login: "/login",
 	logout: "/logout",
 	supermanager: "/places",
-	manager: "/manager",
+	manager: "/manager/",
 };
 
 export const SESSION_COOKIE_NAME = "auth-session";
