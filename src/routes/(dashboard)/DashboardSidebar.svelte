@@ -2,22 +2,10 @@
 	import { goto } from "$app/navigation";
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-	import { ChevronUpIcon, HouseIcon, MapPinIcon } from "lucide-svelte";
+	import type { SidebarItem } from "$lib/types";
+	import { ChevronUpIcon, LogOutIcon, UserCircle } from "lucide-svelte";
 
-	const dashboardItems = [
-		{
-			title: "Home",
-			url: "/",
-			icon: HouseIcon,
-		},
-		{
-			title: "Places",
-			url: "/places",
-			icon: MapPinIcon,
-		},
-	];
-
-	const { username }: { username: string } = $props();
+	const { username, items }: { username: string; items: SidebarItem[] } = $props();
 </script>
 
 <Sidebar.Root variant="inset">
@@ -28,7 +16,7 @@
 			<Sidebar.GroupLabel>Dashboard</Sidebar.GroupLabel>
 			<Sidebar.GroupContent>
 				<Sidebar.Menu>
-					{#each dashboardItems as item (item.title)}
+					{#each items as item (item.title)}
 						<Sidebar.MenuItem>
 							<Sidebar.MenuButton>
 								{#snippet child({ props })}
@@ -55,17 +43,15 @@
 								{...props}
 								class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 							>
+								<UserCircle />
 								{username}
 								<ChevronUpIcon class="ml-auto" />
 							</Sidebar.MenuButton>
 						{/snippet}
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
-						<DropdownMenu.Item>
-							<span>Account</span>
-						</DropdownMenu.Item>
 						<DropdownMenu.Item onclick={() => goto("/logout")}>
-							<span>Log out</span>
+							<LogOutIcon /> <span>Log out</span>
 						</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>

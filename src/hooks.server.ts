@@ -1,6 +1,6 @@
 import { deleteSessionTokenCookie, routes, SESSION_COOKIE_NAME, setSessionTokenCookie } from "$lib";
 import { api } from "$lib/api";
-import type { Result } from "$lib/types";
+import type { ApiResult } from "$lib/types";
 import { redirect, type Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -27,7 +27,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return redirect(303, routes.login);
 	}
 
-	const session = await response.json<Result<NonNullable<App.Locals["session"]>>>();
+	const session = await response.json<ApiResult<NonNullable<App.Locals["session"]>>>();
 	if (session == null || !session.ok) {
 		deleteSessionTokenCookie(event);
 		return redirect(303, routes.login);

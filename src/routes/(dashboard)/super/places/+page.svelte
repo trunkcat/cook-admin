@@ -16,6 +16,7 @@
 	import { onMount } from "svelte";
 	import SearchBox from "$lib/components/SearchBox.svelte";
 	import { api } from "$lib/api";
+	import { goto } from "$app/navigation";
 
 	let { data }: { data: PageData } = $props();
 
@@ -92,17 +93,21 @@
 						<ArrowDown10Icon class="size-3" />
 					{/if}
 				</Table.Head>
+				<Table.Head class="text-center">Type</Table.Head>
 				<Table.Head class="text-center">Unlocks at</Table.Head>
 				<Table.Head class="text-center">Price</Table.Head>
+				<Table.Head class="text-center">(X, Y)</Table.Head>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
 			{#each places.toSorted(comparatorFn).filter(filterFn) as place}
-				<Table.Row class="table-row cursor-pointer">
+				<Table.Row class="table-row cursor-pointer" onclick={() => goto(`places/${place.placeId}`)}>
 					<Table.Cell class="py-4 text-center">{place.placeId}</Table.Cell>
 					<Table.Cell>{place.name}</Table.Cell>
+					<Table.Cell class="text-center">{place.type}</Table.Cell>
 					<Table.Cell class="text-center">{place.unlocksAt}</Table.Cell>
 					<Table.Cell class="text-center">{priceFormatter.format(place.price)}</Table.Cell>
+					<Table.Cell class="text-center">({place.position[0]}, {place.position[1]})</Table.Cell>
 				</Table.Row>
 			{:else}
 				<Table.Row>

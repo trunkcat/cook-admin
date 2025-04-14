@@ -1,0 +1,9 @@
+export const GAME_ITEMS = [
+	"BUN",
+	"BUN_CRATE",
+	"PATTY",
+	"PATTY_CRATE",
+	"TOMATO",
+	"FRYING_PAN",
+	"CUTTING_BOARD",
+];

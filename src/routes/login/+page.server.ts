@@ -5,7 +5,8 @@ import { zod } from "sveltekit-superforms/adapters";
 import { api } from "$lib/api";
 import { error, redirect } from "@sveltejs/kit";
 import { routes, setSessionTokenCookie } from "$lib";
-import type { Result } from "$lib/types";
+import type { ApiResult } from "$lib/types";
+import type { ManagerRole } from "$lib/schema-types";
 
 export const load: PageServerLoad = async () => {
 	return {
@@ -27,10 +28,17 @@ export const actions = {
 		if (!response.ok) {
 			return error(response.status, { message: "Something went wrong" });
 		}
-		const session = await response.json<Result<{ sessionToken: string; expiresAt: string }>>();
+		const session = await response.json<
+			ApiResult<{
+				sessionToken: string;
+				expiresAt: string;
+				role: ManagerRole;
+			}>
+		>();
+
 		if (session.ok) {
 			setSessionTokenCookie(event, session.data.sessionToken, session.data.expiresAt);
-			redirect(307, routes.supermanager);
+			redirect(307, routes[session.data.role]);
 		} else {
 			return error(response.status, { message: "Something went wrong" });
 		}

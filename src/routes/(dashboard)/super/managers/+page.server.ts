@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { superValidate, fail, message } from "sveltekit-superforms";
-import { formSchema } from "./insert-place-form.svelte";
+import { formSchema } from "./register-manager-form.svelte";
 import { zod } from "sveltekit-superforms/adapters";
 import { api } from "$lib/api";
 import { error, redirect } from "@sveltejs/kit";
@@ -12,9 +12,8 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	return {
-		title: "Places",
+		title: "Managers",
 		form: superValidate(zod(formSchema)),
-		username: event.locals.session.manager.username,
 	};
 };
 
@@ -27,11 +26,12 @@ export const actions = {
 
 		const res = await api
 			.extend({ fetch: event.fetch })
-			.post("manager/places", { json: form.data });
+			.post("manager/register", { json: form.data });
+
 		if (res.ok) {
-			return message(form, { message: "Added place successfully" });
+			return message(form, { message: "Added manager successfully" });
 		} else {
-			return error(500, { message: "Failed to add place" });
+			return error(500, { message: "Failed to add manager" });
 		}
 	},
 } satisfies Actions;
