@@ -11,12 +11,13 @@
 		PlusIcon,
 		RefreshCwIcon,
 	} from "lucide-svelte";
-	import type { SortDirection } from "$lib/types";
+	import type { ApiResult, SortDirection } from "$lib/types";
 	import type { Place } from "$lib/schema-types";
 	import { onMount } from "svelte";
 	import SearchBox from "$lib/components/SearchBox.svelte";
 	import { api } from "$lib/api";
 	import { goto } from "$app/navigation";
+	import { toast } from "svelte-sonner";
 
 	let { data }: { data: PageData } = $props();
 
@@ -26,7 +27,16 @@
 	async function fetchPlaces() {
 		isRefreshing = true;
 		const response = await api.get("data/places");
-		places = await response.json();
+		if (response.ok) {
+			const result: ApiResult<Place[]> = await response.json();
+			if (result.ok) {
+				places = result.data;
+			} else {
+				toast.error("Failed to fetch places");
+			}
+		} else {
+			toast.error("Failed to fetch places");
+		}
 		isRefreshing = false;
 	}
 
